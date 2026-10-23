@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090b18">
+<title>聽人說鬼話｜第一人稱沉浸式調查</title>
+<style>
+:root{--ink:#f7f4ff;--muted:#c6c9dc;--purple:#c7b2ff;--gold:#ffdc91;--green:#9ef0c2;--red:#ff9fba}
+*{box-sizing:border-box}body{margin:0;background:#080a14;color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.6;overflow-x:hidden}
+button,input{font:inherit}button{border:1px solid #7466a8;border-radius:13px;background:#c7b2ff;color:#171329;font-weight:800;padding:12px 16px;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.secondary{background:#272a42;color:var(--ink);border-color:#555b7b}.wrap{max-width:900px;margin:auto;padding:14px 12px 36px}.scene{position:relative;min-height:260px;border:1px solid #555078;border-radius:22px;overflow:hidden;background:#11152a;margin-bottom:14px;isolation:isolate}.scene svg{position:absolute;inset:0;width:100%;height:100%;z-index:-2}.scene:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#090b18 0%,#090b1850 38%,#10152b30 100%);z-index:-1}.hud{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:13px 14px;font-size:.84rem;text-shadow:0 2px 6px #000}.pill{display:inline-block;border:1px solid #8e83b8;border-radius:99px;padding:3px 9px;background:#111326aa}.scene-caption{position:absolute;left:18px;right:18px;bottom:18px}.scene-caption h1{font-size:clamp(1.65rem,5vw,2.8rem);line-height:1.16;margin:0 0 7px}.scene-caption p{margin:0;color:#e0e0f0;max-width:650px}.panel{background:linear-gradient(150deg,#1e223b,#111427);border:1px solid #454b6c;border-radius:20px;padding:clamp(15px,4vw,24px);margin:13px 0}.eyebrow{font-size:.78rem;letter-spacing:.13em;color:var(--purple);font-weight:850}.sub{color:var(--muted)}h2{margin:.25rem 0 .6rem;font-size:1.35rem}.small{font-size:.85rem;color:var(--muted)}.field{display:block;width:100%;padding:12px;border-radius:12px;border:1px solid #626987;background:#0d1020;color:var(--ink);margin:6px 0 12px}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}.choices{display:grid;gap:9px;margin-top:15px}.choice{display:flex;align-items:flex-start;gap:10px;text-align:left;background:#252a45;color:var(--ink);border-color:#505777;font-weight:550;width:100%}.choice .letter{width:28px;height:28px;flex:0 0 28px;border-radius:8px;background:#444b6b;display:grid;place-items:center;font-weight:850}.choice.selected{border-color:var(--purple);background:#373052}.choice.correct{border-color:var(--green)}.choice.wrong{border-color:var(--red)}.feedback{padding:13px;border-radius:13px;margin-top:13px}.feedback.good{background:#17352d;border:1px solid #4c9875}.feedback.bad{background:#3c2031;border:1px solid #a65376}.hidden{display:none!important}.progress{height:8px;border-radius:20px;background:#080a14;overflow:hidden;margin:12px 0}.progress div{height:100%;width:0;background:linear-gradient(90deg,#9477f4,#f1d0ff);transition:width .3s}.iconbig{font-size:2.3rem}.foot{text-align:center;color:#9298b9;font-size:.8rem;padding:16px}.map{display:flex;gap:7px;flex-wrap:wrap}.node{flex:1;min-width:42px;text-align:center;border:1px solid #505675;border-radius:10px;padding:7px 4px;background:#14182b;color:#a8adc9;font-size:.78rem}.node.active{border-color:var(--gold);color:var(--gold);box-shadow:0 0 18px #fbd88928}.node.done{background:#263d38;color:var(--green);border-color:#548c75}.finish{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,#423768 0,#17172f 44%,#080a14 78%);border:1px solid #7562a8;border-radius:24px;padding:25px;overflow:hidden;position:relative}.finish .trophy{font-size:clamp(4rem,15vw,7rem);animation:float 2.3s ease-in-out infinite;filter:drop-shadow(0 0 25px #c7b2ff88)}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}.finish h1{font-size:clamp(2rem,7vw,3.5rem);margin:0;color:#fff0c7;text-shadow:0 0 20px #f6d9a855}.stats{display:flex;gap:9px;width:100%;max-width:480px;margin:20px 0}.stat{flex:1;background:#0d1028;border:1px solid #555078;border-radius:13px;padding:12px}.stat strong{display:block;font-size:1.45rem;color:var(--gold)}.stat span{font-size:.78rem;color:var(--muted)}.notice{background:#14182b;padding:12px;border-radius:12px;color:var(--muted);font-size:.88rem}
+@media(max-width:520px){.scene{min-height:300px}.row{flex-direction:column}.stats{gap:5px}.stat{padding:9px 3px}.stat strong{font-size:1.15rem}.wrap{padding:9px 8px 26px}}
+</style>
+</head>
+<body>
+<audio id="bgmAudio" src="bgm.mp3" loop preload="auto"></audio>
+<div class="wrap">
+<div class="scene" id="scene">
+<svg viewBox="0 0 900 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#29284e"/><stop offset="1" stop-color="#101628"/></linearGradient>
+ <radialGradient id="mist"><stop stop-color="#aaa4d5" stop-opacity=".25"/><stop offset="1" stop-color="#aaa4d5" stop-opacity="0"/></radialGradient>
+ <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#252a42"/><stop offset="1" stop-color="#070a14"/></linearGradient>
+</defs>
+<rect width="900" height="420" fill="url(#sky)"/>
+<circle cx="705" cy="95" r="43" fill="#e7dbff" opacity=".75"/><circle cx="705" cy="95" r="66" fill="url(#mist)"/>
+<path d="M0 230 L90 125 150 205 240 100 330 230 405 155 500 238 585 120 685 220 780 135 900 230 V420 H0Z" fill="#171e35"/>
+<path d="M0 275 L120 205 205 270 330 175 430 278 550 190 680 280 790 190 900 265 V420 H0Z" fill="#0e1529"/>
+<path d="M0 315 L450 235 900 315 V420 H0Z" fill="url(#floor)"/>
+<path d="M450 245 L420 420 M450 245 L480 420 M450 245 L300 420 M450 245 L600 420" stroke="#6e688d" stroke-opacity=".25" stroke-width="2"/>
+<g fill="#070a14" opacity=".9"><path d="M55 280 V90 L30 140 54 125 18 185 54 164 8 230 55 204 80 280Z"/><path d="M100 278 V130 L82 162 100 153 72 200 100 181 87 230 100 216 118 278Z"/><path d="M830 280 V85 L800 140 830 122 790 190 830 165 775 235 830 205 855 280Z"/><path d="M775 280 V145 L755 180 775 166 748 212 775 195 765 238 775 225 795 280Z"/></g>
+<g id="lantern" transform="translate(450 300)"><path d="M0 -45 V-24" stroke="#d5c6a2" stroke-width="3"/><path d="M-19 -24 Q0 -35 19 -24 L15 12 Q0 25 -15 12Z" fill="#c44f59" stroke="#f2c88c" stroke-width="2"/><path d="M-12 -14 H12 M-12 -2 H12 M-10 9 H10" stroke="#ffd991" stroke-width="2"/><ellipse cy="0" rx="40" ry="50" fill="#ffd68a" opacity=".12"/></g>
+<g fill="#b8afd9" opacity=".12"><ellipse cx="210" cy="250" rx="180" ry="35"/><ellipse cx="700" cy="265" rx="200" ry="45"/></g>
+</svg>
+<div class="hud"><span class="pill">第一人稱視角・夜間調查</span><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button id="bgmBtn" class="secondary" style="padding:6px 10px">🔇 靜音音樂</button><button id="soundBtn" class="secondary" style="padding:6px 10px">🔊 音效：開</button></div></div>
+<div class="scene-caption" id="sceneCaption"><div class="eyebrow">FIELD INVESTIGATION / TAIWAN FOLKLORE</div><h1>聽人說鬼話</h1><p>你站在古老圖書館外。霧氣從山徑間升起，遠處的燈籠忽明忽暗。六份檔案、十道謎題，正等著你親自查明。</p></div>
+</div>
+
+<section id="start" class="panel">
+<div class="eyebrow">CASE FILE 001 · INVESTIGATOR CHECK-IN</div>
+<h2>🎒 裝備確認</h2>
+<p>這是一場第一人稱文字冒險。你將以「我」的視角走進展覽，在展板前觀察、閱讀、選擇線索。<strong>每題答錯就必須重來該題</strong>，答對才能繼續前進。</p>
+<label for="player">調查員代號</label><input id="player" class="field" maxlength="24" placeholder="例如：小文／07號調查員">
+<label for="cls">班級／座號（選填）</label><input id="cls" class="field" maxlength="30" placeholder="例如：801／07">
+<div class="notice">🔉 點擊「開始調查」後會啟用環境音效。音效由瀏覽器即時合成，不需下載額外音檔；可隨時關閉。請在圖書館保持適當音量，建議使用耳機或關閉音效。</div>
+<button id="startBtn" style="width:100%;margin-top:14px">點亮燈籠，開始調查 →</button>
+</section>
+
+<section id="game" class="hidden">
+<div class="panel">
+<div class="row" style="align-items:center"><div><div class="eyebrow" id="qNum">QUESTION 1 / 10</div><h2 id="chapter">第一站：展覽入口</h2></div><span class="pill" id="score">線索分數：0</span></div>
+<div class="progress"><div id="bar"></div></div>
+<div class="map" id="map"></div>
+<p class="small" id="where">📍 你現在位於……</p>
+<p id="narrative"></p>
+<div class="notice" id="sign">展板提示</div>
+<h2 id="question" style="margin-top:16px">題目</h2>
+<div id="answers" class="choices"></div>
+<div id="feedback" class="feedback hidden" aria-live="polite"></div>
+<div class="row" style="margin-top:13px"><button id="hint" class="secondary">🔦 查看現場提示</button><button id="submit" disabled>確認線索</button></div>
+<button id="retry" class="hidden" style="width:100%;margin-top:12px">重新調查這一題 ↻</button>
+<button id="continue" class="hidden" style="width:100%;margin-top:12px">線索確認，繼續前進 →</button>
+</div>
+</section>
+
+<section id="complete" class="hidden">
+<div class="finish">
+<div class="trophy">🏆</div><div class="eyebrow">INVESTIGATION COMPLETE</div>
+<h1>破關完成！</h1>
+<p style="max-width:560px">你走完了展覽中的十道謎題，將散落的傳說重新拼回臺灣文化的記憶。真正的線索不只在鬼怪身上，也藏在歷史、土地與人們的生活裡。</p>
+<div class="stats"><div class="stat"><strong id="doneCount">10/10</strong><span>完成題數</span></div><div class="stat"><strong id="mistakes">0</strong><span>錯誤次數</span></div><div class="stat"><strong id="duration">0:00</strong><span>調查時間</span></div></div>
+<p id="personal" class="sub"></p>
+<div class="row" style="width:100%;max-width:520px"><button id="saveScore">儲存本機紀錄</button><button id="again" class="secondary">重新開始</button></div>
+<p class="small">你已獲得「臺灣妖怪調查員」稱號。請帶著最後一個問題離開：故事為什麼能穿越時間，繼續被人們講述？</p>
+</div>
+<div class="panel"><h2>📜 十道線索回顧</h2><ol id="recap" class="list"></ol></div>
+<div class="panel"><h2>👩‍🏫 成績紀錄（本機）</h2><p class="small">此版本可將成績存到目前瀏覽器並下載 CSV。若要全班跨裝置集中統計，需另外連接教師核准的試算表或後端。</p><div id="records"></div><button id="csv" class="secondary" style="margin-top:10px">下載成績 CSV</button></div>
+</section>
+<p class="foot">臺灣妖怪調查局｜沉浸式閱讀任務｜教學用途</p>
+</div>
+<script>
+const questions=[
+{chapter:"第一站：展覽入口",where:"我走進展覽入口，眼前是一座由故事、口傳與文學組成的迷宮。",board:"前言文案｜展覽主題",narrative:"牆面寫著：臺灣的鬼怪故事不曾斷裂。第一份檔案問我，這趟調查究竟要尋找什麼。",q:"從整體展覽來看，臺灣鬼怪傳說最適合被理解成什麼？",o:["只有用來嚇人的虛構故事","保存文化記憶，也反映歷史與社會經驗的故事","所有地區完全相同的故事","用來證明每個傳聞都是真實事件的紀錄"],a:1,h:"想想展覽同時談到神話、女性處境、地方環境、歷史與文學。",ex:"展覽把鬼怪故事視為文化記憶、地方經驗與文學想像的載體。",scene:"entrance"},
+{chapter:"第二站：神話長廊",where:"我沿著木製展架往前走，聽見風穿過山林的聲音。",board:"2-1～2-4｜活在耳朵與嘴唇的神話傳說",narrative:"展板記錄著原住民族以口傳、歌謠、圖騰與工藝保存族群記憶。我停在「始生傳說」前。",q:"依照展覽文案，排灣族祖先的傳說與哪一種意象有關？",o:["兩顆由太陽神降下的蛋","月亮裡的一座宮殿","海底沉睡的巨船","由石頭雕成的三把劍"],a:0,h:"線索在 2-3「始生傳說」：找找太陽神、百步蛇與祖先的描述。",ex:"展板提到排灣族祖先是太陽神降下的兩顆蛋，經百步蛇孵化後成為一男一女。",scene:"forest"},
+{chapter:"第三站：巨人傳說",where:"我在展板前看見一幅山林圖像，旁邊寫著阿里嘎該。",board:"2-2｜阿里嘎該（Alikakay）",narrative:"我閱讀這個阿美族神話角色的介紹，思考故事與土地、人群的關係。",q:"展覽將阿里嘎該的傳說，可能連結到哪一類地方記憶？",o:["花東平原上族群接觸與衝突的記憶","臺灣鐵路建設的歷史","都市百貨公司的開幕活動","海上貿易船隻的航行規則"],a:0,h:"閱讀 2-2 最後一句，留意花東平原與部落之間的歷史脈絡。",ex:"展覽提出一種解讀：口傳故事可能記錄東部原住民族群與外來者之間的衝突。",scene:"forest"},
+{chapter:"第四站：女鬼檔案室",where:"我轉進燈光較暗的展區，三份女性鬼怪故事並列在牆上。",board:"3-1～3-4｜厲鬼總是女生？",narrative:"我讀到傳統社會中女性受到的限制，發現鬼怪故事也可能在替無法發聲的人說話。",q:"展覽如何解釋部分女鬼復仇傳說的文化意義？",o:["證明所有女性都具有法術","反映女性在傳統社會受到的壓迫與不公","表示女性都住在林投樹旁","說明民間故事只為了製造笑料"],a:1,h:"回看 3-1 導言：女性的權利、受教育機會與遭遇是關鍵。",ex:"這類故事不只是鬼怪奇談，也映照女性受到的壓迫，以及對不公義的控訴。",scene:"hall"},
+{chapter:"第五站：府城傳說",where:"我走到陳守娘的展板前，讀到她與府城居民、神明之間的傳說。",board:"3-2｜陳守娘",narrative:"我需要從展板找出故事發生的地方，而不是依靠猜測。",q:"依照展覽文案，陳守娘的傳說主要發生在哪裡？",o:["臺南府城","花蓮港口","玉山山頂","臺北城郊"],a:0,h:"展板第一句就說明陳守娘與哪座府城有關。",ex:"文案稱陳守娘是傳說中臺南府城法力高強的女鬼。",scene:"hall"},
+{chapter:"第六站：山海交界",where:"我沿著山海圖像走到下一面展牆，霧氣似乎從畫中的山谷流出。",board:"4-1～4-4｜潛伏在交界處的鬼魅",narrative:"展覽提到深山、河流、海洋等人與自然交界的地方，容易成為傳說發生的舞台。",q:"依照展覽文案，魔神仔最常與哪一種環境連結？",o:["繁忙的百貨公司","深山與森林","大型運動場","教室講台"],a:1,h:"查看 4-1 與 4-2 的標題及第一段。",ex:"魔神仔常被描述為出沒於深山地區的精靈或妖怪，故事也與迷路經驗相連。",scene:"forest"},
+{chapter:"第七站：都市傳說",where:"我來到一面展示攝影機與現代媒介的展板前。",board:"4-4｜都市傳說",narrative:"我發現鬼怪故事不只靠長輩口述，也會透過影像、網路與流行文化傳播。",q:"依照展覽文案，都市傳說通常如何流傳？",o:["只靠官方公告","透過口耳相傳或網路散播","只存在於古代石碑","只能由專業作家出版後流傳"],a:1,h:"找出 4-4 開頭對「都市傳說」的定義。",ex:"都市傳說是當代社會透過口耳相傳或網路散播的民俗故事。",scene:"hall"},
+{chapter:"第八站：虎姑婆的線索",where:"我在古書影印頁前停下，看到虎姑婆的故事有不同地方版本。",board:"5-2｜虎姑婆；臺南采錄補充展板",narrative:"我需要仔細閱讀臺南版本的細節，才能找到姊妹逃脫的關鍵。",q:"臺南采錄版本的虎姑婆故事，有哪一項特別情節？",o:["虎姑婆假裝吃嫩薑，姊妹用腳吊綁住她","虎姑婆變成幽靈船","故事全程發生在玉山山頂","姊妹用手機拍下紅衣小女孩"],a:0,h:"查看「臺南采錄：虎姑婆與腳吊」，留意食物與逃脫方法。",ex:"補充展板指出，虎姑婆佯裝吃嫩薑，姊妹利用腳吊（裹腳布）將她綁住後逃脫。",scene:"library"},
+{chapter:"第九站：魔幻寫實",where:"我走到新世紀鬼國寓言展區，讀到魔幻寫實與歷史記憶。",board:"6-1～6-4｜新世紀鬼國寓言",narrative:"我開始理解，作家可能透過超現實的故事，表達現實世界難以直接說出的議題。",q:"哪一項最符合展覽對「魔幻寫實」的說明？",o:["只記錄數字，完全排除想像","把魔幻、隱喻或超現實手法與現實議題結合","只用古代文言文寫鬼故事","所有故事都必須證明鬼怪存在"],a:1,h:"回到 6-2，關鍵詞包括「魔幻與現實結合」、「隱喻」與「社會寓言」。",ex:"魔幻寫實把魔幻或超現實元素放進現實脈絡，書寫歷史傷痛、政治壓迫或集體記憶。",scene:"library"},
+{chapter:"第十站：玉山手稿",where:"我走到〈來自玉山的媽媽〉手稿前，閱讀老介與鬍子先生的片段。",board:"〈來自玉山的媽媽〉｜甘耀明手稿",narrative:"最後一份線索藏在老介準備早餐的場景裡。這是文學創作，請依文字尋找線索，不需要判定超自然現象真偽。",q:"手稿中的老介為「鬍子先生」準備了什麼？",o:["一碗白酒，並邀請他用早餐","一頂紅帽子與芒草","一串百步蛇圖騰","一台攝影機與錄音帶"],a:0,h:"看手稿最後幾段：老介把什麼倒進青花瓷老碗？",ex:"手稿寫到老介倒滿一碗白酒，對空蕩蕩的山莊喊：「鬍子先生，請用早餐。」",scene:"mountain"}
+];
+let idx=0,selected=null,wrongCount=0,score=0,started=0,elapsed=0,player="調查員",cls="",soundOn=true,audioCtx=null,osc=null,master=null,correctFirst=0,wrongThis=0,records=[];
+const $=id=>document.getElementById(id);
+function show(id){$(id).classList.remove("hidden")}function hide(id){$(id).classList.add("hidden")}
+function tone(freq=440,dur=.12,type="sine",vol=.035,delay=0){if(!soundOn)return;try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime+delay);g.gain.exponentialRampToValueAtTime(vol,audioCtx.currentTime+delay+.015);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+delay+dur);o.connect(g);g.connect(audioCtx.destination);o.start(audioCtx.currentTime+delay);o.stop(audioCtx.currentTime+delay+dur+.03);}catch(e){}}
+function sound(kind){if(!soundOn)return;if(kind==="click")tone(430,.05,"sine",.018);if(kind==="correct"){tone(523,.12,"sine",.04);tone(659,.16,"sine",.04,.11);tone(784,.22,"sine",.035,.24)}if(kind==="wrong"){tone(170,.22,"triangle",.05);tone(115,.32,"sawtooth",.025,.12)}if(kind==="win"){[523,659,784,1046].forEach((f,i)=>tone(f,.28,"sine",.045,i*.16));}}
+function sceneArt(type){
+ const caption=$("sceneCaption");
+ const data={
+ entrance:["FIELD INVESTIGATION / TAIWAN FOLKLORE","聽人說鬼話","我站在古老圖書館外。霧氣從山徑間升起，遠處的燈籠忽明忽暗。六份檔案、十道謎題，正等著我親自查明。"],
+ forest:["THE MOUNTAIN PATH","山林裡的回聲","我走進山林展區。樹影在月光下交錯，展板上的故事提醒我：每個傳說都與土地和人群有關。"],
+ hall:["THE ARCHIVE HALL","檔案室的低語","我走過一排排故事檔案。燈光映在文字上，我必須讀清楚每一個細節，才能繼續前進。"],
+ library:["THE STORY LIBRARY","故事藏書室","我停在泛黃的文獻與書頁前。這裡的每個版本，都留下了講述者的選擇與時代的痕跡。"],
+ mountain:["FINAL FILE / YUSHAN","玉山手稿的最後線索","我來到高山手稿展板前。窗外雪光映著山影，最後一條線索就在老介與鬍子先生的故事裡。"]
+ };
+ const d=data[type]||data.entrance;caption.innerHTML=`<div class="eyebrow">${d[0]}</div><h1>${d[1]}</h1><p>${d[2]}</p>`;
+ const svg=document.querySelector("#scene svg");svg.style.filter=type==="hall"?"hue-rotate(15deg) brightness(.85)":type==="library"?"hue-rotate(35deg) brightness(.9)":type==="mountain"?"hue-rotate(180deg) brightness(1.05)":"none";
+}
+function drawMap(){const names=["入口","神話","巨人","女鬼","府城","山海","都市","虎姑婆","文學","玉山"];$("map").innerHTML=names.map((n,i)=>`<div class="node ${i===idx?"active":i<idx?"done":""}">${i<idx?"✓":i+1}<br>${n}</div>`).join("");}
+function render(){
+ const q=questions[idx];selected=null;wrongThis=0;
+ $("qNum").textContent=`QUESTION ${idx+1} / ${questions.length}`;$("chapter").textContent=q.chapter;$("score").textContent=`線索分數：${score}`;$("bar").style.width=(idx/questions.length*100)+"%";
+ $("where").textContent="📍 "+q.where;$("narrative").textContent=q.narrative;$("sign").textContent="🔎 展板提示："+q.board;$("question").textContent=q.q;
+ $("answers").innerHTML=q.o.map((o,i)=>`<button class="choice" data-i="${i}"><span class="letter">${"ABCD"[i]}</span><span>${o}</span></button>`).join("");
+ $("answers").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{selected=Number(b.dataset.i);$("answers").querySelectorAll(".choice").forEach(x=>x.classList.toggle("selected",x===b));$("submit").disabled=false;sound("click")}));
+ $("feedback").className="feedback hidden";$("feedback").textContent="";hide("retry");hide("continue");show("hint");show("submit");$("submit").disabled=true;drawMap();sceneArt(q.scene);
+}
+function start(){player=$("player").value.trim()||"匿名調查員";cls=$("cls").value.trim();started=Date.now();if(soundOn){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();tone(440,.1,"sine",.025);tone(660,.14,"sine",.025,.12)}catch(e){}}
+ const bgm=$("bgmAudio"); if(!bgm.muted){bgm.volume=0.35;bgm.play().then(()=>{$("bgmBtn").textContent="🔇 靜音音樂";}).catch(()=>{$("bgmBtn").textContent="🔊 開啟音樂";});}
+ hide("start");show("game");render();window.scrollTo({top:0,behavior:"smooth"});}
+$("startBtn").addEventListener("click",start);
+$("soundBtn").addEventListener("click",()=>{soundOn=!soundOn;$("soundBtn").textContent=soundOn?"🔊 音效：開":"🔇 音效：關";if(soundOn)sound("correct");});
+$("bgmBtn").addEventListener("click",()=>{const bgm=$("bgmAudio");if(bgm.paused){bgm.muted=false;bgm.volume=0.35;bgm.play().then(()=>{$("bgmBtn").textContent="🔇 靜音音樂";}).catch(()=>{$("bgmBtn").textContent="🔊 開啟音樂";});}else{bgm.muted=!bgm.muted;$("bgmBtn").textContent=bgm.muted?"🔊 開啟音樂":"🔇 靜音音樂";if(!bgm.muted)bgm.play().catch(()=>{});}});
+$("hint").addEventListener("click",()=>{const q=questions[idx];$("feedback").className="feedback";$("feedback").innerHTML="🔦 <strong>現場提示</strong><br>"+q.h;sound("click");});
+$("submit").addEventListener("click",()=>{
+ if(selected===null)return;const q=questions[idx];const btns=[...$("answers").querySelectorAll("button")];btns.forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add("correct");if(i===selected&&i!==q.a)b.classList.add("wrong")});
+ if(selected===q.a){score+=10;if(wrongThis===0)correctFirst++;$("score").textContent=`線索分數：${score}`;$("feedback").className="feedback good";$("feedback").innerHTML="✨ <strong>線索確認成功！</strong><br>"+q.ex+"<br><span class='small'>你獲得 10 點線索分數，可以繼續前進。</span>";hide("hint");hide("submit");show("continue");sound("correct");}
+ else{wrongCount++;wrongThis++;$("feedback").className="feedback bad";$("feedback").innerHTML="⛔ <strong>線索不吻合，調查必須重來。</strong><br>請再讀一次展板提示與故事內容，按下「重新調查這一題」後重新作答。這一關答對才能繼續。";show("retry");hide("submit");sound("wrong");}
+});
+$("retry").addEventListener("click",()=>{const q=questions[idx];$("answers").querySelectorAll("button").forEach(b=>{b.disabled=false;b.classList.remove("selected","correct","wrong")});selected=null;$("submit").disabled=true;$("feedback").className="feedback hidden";hide("retry");show("submit");sound("click");});
+$("continue").addEventListener("click",()=>{idx++;if(idx<questions.length){render();window.scrollTo({top:0,behavior:"smooth"});}else{elapsed=Math.floor((Date.now()-started)/1000);showComplete();}});
+function showComplete(){hide("game");show("complete");$("doneCount").textContent="10/10";$("mistakes").textContent=wrongCount;$("duration").textContent=Math.floor(elapsed/60)+":"+String(elapsed%60).padStart(2,"0");$("personal").textContent=`調查員：${player}｜線索分數：${score}／100｜首次答對：${correctFirst}／10`; $("recap").innerHTML=questions.map((q,i)=>`<li><strong>${q.chapter}：</strong>${q.ex}</li>`).join("");sound("win");window.scrollTo({top:0,behavior:"smooth"});}
+function save(){const rec={name:player,cls,score,wrong:wrongCount,firstCorrect:correctFirst,time:$("duration").textContent,date:new Date().toLocaleString("zh-TW")};records=JSON.parse(localStorage.getItem("immersiveGhostScores")||"[]");records.push(rec);localStorage.setItem("immersiveGhostScores",JSON.stringify(records));$("records").innerHTML=`<p class="feedback good">已儲存本機紀錄：${player}，${score} 分。</p>`+records.slice(-10).reverse().map((r,i)=>`<div class="notice" style="margin:6px 0">${i+1}. ${escapeHtml(r.name)}｜${r.score} 分｜錯誤 ${r.wrong} 次｜${r.time}</div>`).join("");$("saveScore").textContent="已儲存紀錄 ✓";$("saveScore").disabled=true;}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+$("saveScore").addEventListener("click",save);
+$("again").addEventListener("click",()=>location.reload());
+$("csv").addEventListener("click",()=>{const all=JSON.parse(localStorage.getItem("immersiveGhostScores")||"[]");const rows=[["調查員","班級座號","分數","錯誤次數","首次答對","用時","日期"],...all.map(r=>[r.name,r.cls,r.score,r.wrong,r.firstCorrect,r.time,r.date])];const csv="\ufeff"+rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="妖怪調查局_沉浸式闖關成績.csv";a.click();URL.revokeObjectURL(a.href);});
+</script>
+</body></html>
